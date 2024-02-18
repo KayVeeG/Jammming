@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+
+import { React, useState, useEffect } from "react";
+
+// import components
+import SearchBar from "./components/searchbar/SearchBar";
 
 function App() {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    if (searchTerm) {
+      console.log(searchTerm);
+    }
+  }, [searchTerm]);
+
+  const searchHandler = (newSearchTerm) => {
+    setSearchTerm(newSearchTerm);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Version control!.
-          </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <SearchBar onSearch={searchHandler} />
+    </>
   );
 }
 
