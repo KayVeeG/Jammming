@@ -5,6 +5,7 @@ import { React, useState, useEffect } from "react";
 
 // import components
 import SearchBar from "./components/searchbar/SearchBar";
+import SearchResults from "./components/searchresults/SearchResults";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -21,7 +22,11 @@ function App() {
 
   return (
     <>
+      
+
       <SearchBar onSearch={searchHandler} />
+
+      <SearchResults />
     </>
   );
 }
