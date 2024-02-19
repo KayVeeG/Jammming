@@ -10,6 +10,7 @@ function SearchBar({ onSearch }) {
 
     const handleClick = () => {
         onSearch(inputValue); // pass current value to parent component
+        setInputValue('');
     }
 
   return (
