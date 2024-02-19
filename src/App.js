@@ -22,11 +22,16 @@ function App() {
 
   return (
     <>
-      
+      <nav>
+        Ja<span>mmm</span>ing
+      </nav>
 
       <SearchBar onSearch={searchHandler} />
-
       <SearchResults />
+
+      <footer>
+        <span>By</span>Karl von Gagern - 2024
+      </footer>
     </>
   );
 }
