@@ -6,22 +6,23 @@ import { React, useState, useEffect } from "react";
 // import components
 import SearchBar from "./components/searchbar/SearchBar";
 import SearchResults from "./components/searchresults/SearchResults";
+import Song from "./components/song/Song";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [songs, setSongs] = useState([
     {
-      name: "Wurst Vacation",
+      title: "Wurst Vacation",
       artist: "Ice Nine Kills",
       album: "Horrorwood",
     },
     {
-      name: "Fly me to the moon",
+      title: "Fly me to the moon",
       artist: "Frank Sinatra",
       album: "Pretty Eyes",
     },
     {
-      name: "Can you remember the rain",
+      title: "Can you remember the rain",
       artist: "unknown",
       album: "unkown",
     },
@@ -47,7 +48,7 @@ function App() {
         <SearchBar onSearch={searchHandler} />
         <ul className="songResults">
           {songs.map((song) => (
-            
+            <Song title={song.title} artist={song.artist} album={song.album} />
           ))}
         </ul>
       </main>
