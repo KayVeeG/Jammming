@@ -9,6 +9,23 @@ import SearchResults from "./components/searchresults/SearchResults";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [songs, setSongs] = useState([
+    {
+      name: "Wurst Vacation",
+      artist: "Ice Nine Kills",
+      album: "Horrorwood",
+    },
+    {
+      name: "Fly me to the moon",
+      artist: "Frank Sinatra",
+      album: "Pretty Eyes",
+    },
+    {
+      name: "Can you remember the rain",
+      artist: "unknown",
+      album: "unkown",
+    },
+  ]);
 
   useEffect(() => {
     if (searchTerm) {
@@ -26,8 +43,14 @@ function App() {
         Ja<span>mmm</span>ing
       </nav>
 
-      <SearchBar onSearch={searchHandler} />
-      <SearchResults />
+      <main>
+        <SearchBar onSearch={searchHandler} />
+        <ul className="songResults">
+          {songs.map((song) => (
+            
+          ))}
+        </ul>
+      </main>
 
       <footer>
         <span>By</span>Karl von Gagern - 2024
@@ -37,3 +60,4 @@ function App() {
 }
 
 export default App;
+
