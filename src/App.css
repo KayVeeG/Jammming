@@ -40,6 +40,31 @@ nav span {
   color: hsla(270, 88%, 70%, 1);
 }
 
+/* main */
+
+main ul.songResults {
+  text-decoration: none;
+  list-style-type: none; /* Remove bullets */
+}
+
+main .songResults h2 {
+  color: white;
+  font-size: 2.5rem;
+  margin: 0;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.songResults {
+  width: 50%; /* other should have 40 */
+  border: 0.3rem solid #212121;
+  background-color: #2d005d8c;
+  border-radius: 1rem;
+  margin: 0 2rem;
+
+  margin-top: 10rem; /* temporary */
+}
+
 
 /* footer */
 

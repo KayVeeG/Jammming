@@ -1,24 +1,28 @@
 import { React, useState } from "react";
+import styles from "./Song.module.css";
 
 function Song({ title, artist, album }) {
+  const handleAddClick = () => {
+    //empty still
+  };
 
-    const handleAddClick = () => {
-        //empty still
-    }
-
-  return <>
-    <li className="song">
+  return (
+    <>
+      <li className={styles.song}>
+        <div className={styles.primary}>{title}</div>
+        <div className={styles.secondary}>
+          {artist} | {album}
+        </div>
         <button
-            aria-label="add song to playlist"
-            className="add-button"
-            onClick={handleAddClick}
+          aria-label="add song to playlist"
+          className={styles.addButton}
+          onClick={handleAddClick}
         >
-
+          add
         </button>
-        <div className="primary">{title}</div>
-        <div className="secondary">{artist} | {album}</div>
-    </li>
-  </>;
+      </li>
+    </>
+  );
 }
 
 export default Song;

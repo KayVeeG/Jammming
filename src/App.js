@@ -47,6 +47,7 @@ function App() {
       <main>
         <SearchBar onSearch={searchHandler} />
         <ul className="songResults">
+          <h2>Results</h2>
           {songs.map((song) => (
             <Song title={song.title} artist={song.artist} album={song.album} />
           ))}
