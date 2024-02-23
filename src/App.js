@@ -52,6 +52,7 @@ function App() {
             <Song title={song.title} artist={song.artist} album={song.album} />
           ))}
         </ul>
+        
       </main>
 
       <footer>

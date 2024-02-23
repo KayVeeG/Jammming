@@ -1,9 +1,10 @@
 import { React, useState } from "react";
+import { ReactComponent as PlusIcon } from "./plus.svg";
 import styles from "./Song.module.css";
 
 function Song({ title, artist, album }) {
   const handleAddClick = () => {
-    //empty still
+    console.log("hello world");
   };
 
   return (
@@ -13,13 +14,12 @@ function Song({ title, artist, album }) {
         <div className={styles.secondary}>
           {artist} | {album}
         </div>
-        <button
+        <PlusIcon
           aria-label="add song to playlist"
           className={styles.addButton}
           onClick={handleAddClick}
-        >
-          add
-        </button>
+        />
+        <div className={styles.line}></div>
       </li>
     </>
   );
