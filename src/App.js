@@ -22,7 +22,6 @@ function App() {
       artist: "Frank Sinatra",
       album: "Pretty Eyes",
     },
-    
   ]);
 
   const [addedSongs, setAddedSongs] = useState([
@@ -43,6 +42,11 @@ function App() {
     setSearchTerm(newSearchTerm);
   };
 
+  const addHandler = (songToAdd) => {
+    setAddedSongs((prevAddedSongs) => {
+      return [...prevAddedSongs, songToAdd];
+    })};
+
   return (
     <>
       <nav>
@@ -55,21 +59,13 @@ function App() {
           <ul className="songResults">
             <h2>Results</h2>
             {songs.map((song) => (
-              <Song
-                title={song.title}
-                artist={song.artist}
-                album={song.album}
-              />
+              <Song song={song} onAdd={addHandler} />
             ))}
           </ul>
           <ul className="playlist">
             <PlaylistName />
             {addedSongs.map((song) => (
-              <Song
-                title={song.title}
-                artist={song.artist}
-                album={song.album}
-              />
+              <Song song={song} onAdd={addHandler} />
             ))}
             <SaveButton />
           </ul>

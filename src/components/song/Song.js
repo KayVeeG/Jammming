@@ -2,17 +2,18 @@ import { React, useState } from "react";
 import { ReactComponent as PlusIcon } from "./plus.svg";
 import styles from "./Song.module.css";
 
-function Song({ title, artist, album }) {
+function Song(props) {
+    const { song, onAdd } = props;
   const handleAddClick = () => {
-    console.log("hello world");
+    onAdd(song);
   };
 
   return (
     <>
       <li className={styles.song}>
-        <div className={styles.primary}>{title}</div>
+        <div className={styles.primary}>{song.title}</div>
         <div className={styles.secondary}>
-          {artist} | {album}
+          {song.artist} | {song.album}
         </div>
         <PlusIcon
           aria-label="add song to playlist"
