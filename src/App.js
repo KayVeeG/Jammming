@@ -5,8 +5,8 @@ import { React, useState, useEffect } from "react";
 
 // import components
 import SearchBar from "./components/searchbar/SearchBar";
-import SearchResults from "./components/searchresults/SearchResults";
 import Song from "./components/song/Song";
+import PlaylistName from "./components/playlistname/PlaylistName";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -21,6 +21,10 @@ function App() {
       artist: "Frank Sinatra",
       album: "Pretty Eyes",
     },
+    
+  ]);
+
+  const [addedSongs, setAddedSongs] = useState([
     {
       title: "Can you remember the rain",
       artist: "unknown",
@@ -46,15 +50,29 @@ function App() {
 
       <main>
         <SearchBar onSearch={searchHandler} />
-        <ul className="songResults">
-          <h2>Results</h2>
-          {songs.map((song) => (
-            <Song title={song.title} artist={song.artist} album={song.album} />
-          ))}
-        </ul>
-        
+        <section className="container">
+          <ul className="songResults">
+            <h2>Results</h2>
+            {songs.map((song) => (
+              <Song
+                title={song.title}
+                artist={song.artist}
+                album={song.album}
+              />
+            ))}
+          </ul>
+          <ul className="playlist">
+            <PlaylistName />
+            {addedSongs.map((song) => (
+              <Song
+                title={song.title}
+                artist={song.artist}
+                album={song.album}
+              />
+            ))}
+          </ul>
+        </section>
       </main>
-
       <footer>
         <span>By</span>Karl von Gagern - 2024
       </footer>
@@ -63,4 +81,3 @@ function App() {
 }
 
 export default App;
-

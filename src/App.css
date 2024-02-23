@@ -52,8 +52,14 @@ main .songResults h2 {
   font-size: 2.5rem;
   margin: 0;
   padding: 0;
-  margin-top: 0.75rem;
-  margin-bottom: 0.8rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.8rem;
+}
+
+.container { /* container for songResults and playlist aside each*/
+  display: flex;
+  justify-content: center;
+  margin-top: 10rem; /* temporary */
 }
 
 .songResults {
@@ -62,8 +68,14 @@ main .songResults h2 {
   background-color: #2d005d8c;
   border-radius: 1rem;
   margin: 0 2rem;
+}
 
-  margin-top: 10rem; /* temporary */
+.playlist {
+  width: 40%; /* other should have 40 */
+  border: 0.3rem solid #212121;
+  background-color: #2d005d8c;
+  border-radius: 1rem;
+  margin: 0 2rem;
 }
 
 
