@@ -1,0 +1,13 @@
+.saveButton {
+	border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    font-family: 'poppins';
+	padding: 1rem;
+	cursor: pointer;
+    color: white;
+    text-transform: uppercase;
+    background-color: rgb(177, 58, 236);
+    border-radius: 2rem;
+    display: flex;
+}

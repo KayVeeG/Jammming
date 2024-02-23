@@ -7,6 +7,7 @@ import { React, useState, useEffect } from "react";
 import SearchBar from "./components/searchbar/SearchBar";
 import Song from "./components/song/Song";
 import PlaylistName from "./components/playlistname/PlaylistName";
+import SaveButton from "./components/savebutton/SaveButton";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -70,6 +71,7 @@ function App() {
                 album={song.album}
               />
             ))}
+            <SaveButton />
           </ul>
         </section>
       </main>
