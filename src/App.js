@@ -22,15 +22,14 @@ function App() {
       artist: "Frank Sinatra",
       album: "Pretty Eyes",
     },
-  ]);
-
-  const [addedSongs, setAddedSongs] = useState([
     {
       title: "Can you remember the rain",
       artist: "unknown",
       album: "unkown",
     },
   ]);
+
+  const [addedSongs, setAddedSongs] = useState([]);
 
   useEffect(() => {
     if (searchTerm) {
@@ -42,34 +41,34 @@ function App() {
     setSearchTerm(newSearchTerm);
   };
 
-  const addHandler = (songToAdd) => { 
-    setAddedSongs((prevAddedSongs) => {
-      return [...prevAddedSongs, songToAdd]; //add prev array + new song
-    });
-  };
-
-  const removeHandler = (songToRemove) => { //only pass all thoughts to list, which dont have the name of the song to remove
-    setSongs(songs.filter((song) => song !== songToRemove.title));
-  };
-
   const switchHandler = (songToSwitch) => {
-    console.log('switching song...');
+    console.log("switching song...");
 
     // is true if songToSwitch title matches a song title in resultList
     const isInResults = songs.some((song) => song.title === songToSwitch.title);
 
     // detect in what list the song was triggered
-    if (isInResults) { //if song is in resultlist
-      console.log('switching song from result list to playlist list...');
-      setAddedSongs((prevAddedSongs) => { //add song to playlist list
+    if (isInResults) {
+      //if song is in resultlist
+
+      console.log("switching song from result list to playlist list...");
+      setAddedSongs((prevAddedSongs) => {
+        //add song to playlist list
         return [...prevAddedSongs, songToSwitch]; //add prev array + new song
       });
       setSongs(songs.filter((song) => song.title !== songToSwitch.title)); //remove song from result list
-    } else { //if song is in playlist list
+    } else {
+      //if song is in playlist list
+
       console.log("switching song from playlist list to result list...");
-      setSongs(songs)
+      setSongs((prevSongs) => {
+        return [...prevSongs, songToSwitch];
+      });
+      setAddedSongs(
+        addedSongs.filter((song) => song.title !== songToSwitch.title)
+      );
     }
-  }
+  };
 
   return (
     <>
@@ -78,28 +77,26 @@ function App() {
         Ja<span>mmm</span>ing
       </nav>
 
-      <main> 
+      <main>
         {/* searchbar */}
         <SearchBar onSearch={searchHandler} />
-
 
         {/* songlists */}
         <section className="container">
           <ul className="songResults">
             <h2>Results</h2>
             {songs.map((song) => (
-              <Song song={song} onAdd={addHandler} onRemove={removeHandler} onSwitch={switchHandler}/>
+              <Song song={song} onSwitch={switchHandler} />
             ))}
           </ul>
           <ul className="playlist">
             <PlaylistName />
             {addedSongs.map((song) => (
-              <Song song={song} onAdd={addHandler} onRemove={removeHandler} onSwitch={switchHandler}/>
+              <Song song={song} onSwitch={switchHandler} />
             ))}
             <SaveButton />
           </ul>
         </section>
-
       </main>
 
       {/*footer*/}
