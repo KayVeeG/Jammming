@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styles from './PlaylistName.module.css';
 
 function PlaylistName() {
   const [playlistName, setPlaylistName] = useState("");
@@ -14,10 +15,11 @@ function PlaylistName() {
   return (
     <>
       <input 
-        placeholder="enter a name"
+        placeholder=""
         value={playlistName}
         onChange={handleChange}
         onClick={handleClick}
+        className={styles.nameInput}
       />
     </>
   );

@@ -1,0 +1,16 @@
+.nameInput {
+    border: none;
+    color: white;
+    border-bottom: 2px solid white;
+    font-size: 2.5rem;
+    margin-top: 0.75rem;
+    width: 100%;
+    font-family: 'poppins';
+    background: none;
+    margin-bottom: 0.65rem;
+    font-weight: 600;
+}
+
+.nameInput:focus {
+  outline: none;
+}

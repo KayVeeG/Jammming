@@ -7,7 +7,14 @@
 	cursor: pointer;
     color: white;
     text-transform: uppercase;
-    background-color: rgb(177, 58, 236);
+    background-color: rgb(147, 58, 236);
     border-radius: 2rem;
-    display: flex;
+
+    margin-top: 1.25rem;
+}
+
+.saveButton:hover {
+    /* simple but smooth hover effect */
+    background-color: rgb(228, 33, 130);
+    transition: background-color 0.5s;
 }

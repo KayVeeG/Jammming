@@ -20,6 +20,29 @@ body {
   background-size: cover;
   background-position: center;
   font-family: 'Poppins';
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  /* Add the previous styles for hiding vertical scrollbar */
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%; /* This makes sure that the app container is at least as tall as the viewport */
+}
+
+main {
+  flex: 1; /* This allows the main content to expand and push the footer downward */
+  
 }
 
 .App {
@@ -60,11 +83,13 @@ main .songResults h2 {
 .container { /* container for songResults and playlist aside each*/
   display: flex;
   justify-content: center;
-  margin-top: 10rem; /* temporary */
+  margin-top: 4rem; /* temporary */
+  
 }
 
 .songResults {
   width: 50%; /* other should have 40 */
+  min-height: 33.35rem; /* have list be extended even without songs*/
   border: 0.3rem solid #212121;
   background-color: #2d005d8c;
   border-radius: 1rem;
@@ -72,17 +97,22 @@ main .songResults h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-left: 0;
+  padding: 1rem;
 }
 
 .playlist {
   width: 40%; /* other should have 40 */
+  min-height: 34.32rem; /* have list be extended even without songs*/
   border: 0.3rem solid #212121;
   background-color: #2d005d8c;
   border-radius: 1rem;
   margin: 0 2rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; 
+  padding-left: 0;
+  padding: 1rem;
 }
 
 .playlist SaveButton {
@@ -94,14 +124,14 @@ main .songResults h2 {
 
 footer {
   width: 100%;
-  position: absolute;
-  bottom: 0;
+  margin-top: 5rem;
   display: flex;
   justify-content: center;
   padding: 1rem 0;
   color: white;
   font-size: 2rem;
   background-color: hsla(280, 60%, 15%, 1);
+  
 }
 
 footer span {

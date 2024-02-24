@@ -13,33 +13,34 @@
   width: 5%;
   height: 2rem;
   position: absolute; /* Use absolute positioning for the button */
-  right: 2.5rem; /* Align to the far right */
+  right: -0.75rem; /* Align to the far right */
   top: 30%; /* Align to the top of the parent element */
   z-index: 1;
 }
 
 .addButton:hover {
-  color: grey;
+  color: #1db954;
+  transition: color 0.25s;
 }
 
 .primary {
-    font-weight: 500;
-    margin-bottom: -0.5rem;
+  font-weight: 500;
+  margin-bottom: -0.5rem;
 }
 
 .secondary {
-    font-weight: 300;
-    opacity: 0.6;
+  font-weight: 300;
+  opacity: 0.6;
 }
 
 .line {
-    width: 95%;
-    display: flex;
-    justify-content: center;
-    justify-self: center;
-    background-color: white;
-    height: 0.1rem;
-    position: absolute;
-    bottom: 0.7rem;
-    opacity: 0.6;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  justify-self: center;
+  background-color: white;
+  height: 0.1rem;
+  position: absolute;
+  bottom: 0.7rem;
+  opacity: 0.6;
 }
