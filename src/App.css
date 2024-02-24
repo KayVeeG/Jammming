@@ -16,7 +16,10 @@
 
 
 body {
-  background-image: url('../public/background.png');
+   background-image: url('../public/background.png'); 
+  /* background-image: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0'); */
+  /* background-image: url('https://cdn.midjourney.com/b7aee720-568f-4963-8575-4324038bb7ec/0_0_2048_N.webp?method=width&qst=6'); */
+  
   background-size: cover;
   background-position: center;
   font-family: 'Poppins';
