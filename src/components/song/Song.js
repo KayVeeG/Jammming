@@ -2,10 +2,13 @@ import { React, useState } from "react";
 import { ReactComponent as PlusIcon } from "./plus.svg";
 import styles from "./Song.module.css";
 
-function Song(props) {
-    const { song, onAdd } = props;
+function Song({ song, onAdd, onRemove, onSwitch}) {
+
   const handleAddClick = () => {
-    onAdd(song);
+    console.log('clicked add');
+    /* onRemove(song);
+    onAdd(song); */
+    onSwitch(song);
   };
 
   return (
