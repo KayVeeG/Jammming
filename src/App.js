@@ -86,13 +86,13 @@ function App() {
           <ul className="songResults">
             <h2>Results</h2>
             {songs.map((song) => (
-              <Song song={song} onSwitch={switchHandler} />
+              <Song key={song.title} song={song} onSwitch={switchHandler} isAdded={false} />
             ))}
           </ul>
           <ul className="playlist">
             <PlaylistName />
             {addedSongs.map((song) => (
-              <Song song={song} onSwitch={switchHandler} />
+              <Song key={song.title} song={song} onSwitch={switchHandler} isAdded={true} />
             ))}
             <SaveButton />
           </ul>

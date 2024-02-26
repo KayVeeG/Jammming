@@ -9,7 +9,7 @@
   position: relative; /* Add position relative to the parent element */
 }
 
-.addButton {
+.button {
   width: 5%;
   height: 2rem;
   position: absolute; /* Use absolute positioning for the button */
@@ -18,8 +18,8 @@
   z-index: 1;
 }
 
-.addButton:hover {
-  color: #1db954;
+.button:hover {
+  color: #e4218a;
   transition: color 0.25s;
 }
 
