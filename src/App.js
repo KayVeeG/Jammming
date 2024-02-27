@@ -8,6 +8,7 @@ import SearchBar from "./components/searchbar/SearchBar";
 import Song from "./components/song/Song";
 import PlaylistName from "./components/playlistname/PlaylistName";
 import SaveButton from "./components/savebutton/SaveButton";
+import ApiHandler from "./components/apihandler/ApiHandler";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -97,6 +98,8 @@ function App() {
             <SaveButton />
           </ul>
         </section>
+
+        <ApiHandler/>
       </main>
 
       {/*footer*/}
