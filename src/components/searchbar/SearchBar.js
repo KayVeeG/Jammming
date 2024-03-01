@@ -1,17 +1,18 @@
 import { React, useState } from "react";
 import styles from './SearchBar.module.css';
 
-function SearchBar({ onSearch }) {
+function SearchBar({ onUpdate, onSearch }) {
 
     const [inputValue, setInputValue] = useState(""); // Local state to store the input value
 
     const handleInputChange = (event) => {
         setInputValue(event.target.value) // Update the local state with the input value
+        onUpdate(event.target.value);
     };
 
     const handleClick = () => {
-        onSearch(inputValue); // pass current value to parent component
-        setInputValue('');
+        setInputValue(""); // clear
+        onSearch();
     }
 
   return (

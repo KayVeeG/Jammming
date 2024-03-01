@@ -58,14 +58,12 @@ function App() {
       .then((data) => setAccessToken(data.access_token));
   }, []);
 
-  useEffect(() => {
-    if (searchTerm) {
-      console.log(searchTerm);
-    }
-  }, [searchTerm]);
+  async function search(newSearchTerm) {
+    console.log("search for " + searchTerm);
+  }
 
-  const searchHandler = (newSearchTerm) => {
-    setSearchTerm(newSearchTerm);
+  const searchUpdateHandler = (newSearchChange) => {
+    setSearchTerm(newSearchChange);
   };
 
   const switchHandler = (songToSwitch) => {
@@ -106,7 +104,7 @@ function App() {
 
       <main>
         {/* searchbar */}
-        <SearchBar onSearch={searchHandler} />
+        <SearchBar onUpdate={searchUpdateHandler} onSearch={search}/>
 
         {/* songlists */}
         <section className="container">
