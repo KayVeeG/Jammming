@@ -10,11 +10,11 @@ import PlaylistName from "./components/playlistname/PlaylistName";
 import SaveButton from "./components/savebutton/SaveButton";
 import ApiHandler from "./components/apihandler/ApiHandler";
 
-function App() {
-  // test for .env flow to work
-  // console.log(process.env.REACT_APP_CLIENT_ID);
-  // console.log(process.env.REACT_APP_CLIENT_SECRET);
+const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
+const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
 
+function App() {
+  // general state hooks
   const [searchTerm, setSearchTerm] = useState("");
   const [songs, setSongs] = useState([
     {
@@ -35,6 +35,28 @@ function App() {
   ]);
 
   const [addedSongs, setAddedSongs] = useState([]);
+  const [accessToken, setAccessToken] = useState("");
+
+  // fetch api
+
+  useEffect(() => {
+    // API Access Token
+    var authParameters = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body:
+        "grant_type=client_credentials&client_id=" +
+        CLIENT_ID +
+        "&client_secret=" +
+        CLIENT_SECRET,
+    };
+
+    fetch("https://accounts.spotify.com/api/token", authParameters) // fetch access token
+      .then((result) => result.json()) // convert to json
+      .then((data) => setAccessToken(data.access_token));
+  }, []);
 
   useEffect(() => {
     if (searchTerm) {
@@ -91,19 +113,27 @@ function App() {
           <ul className="songResults">
             <h2>Results</h2>
             {songs.map((song) => (
-              <Song key={song.title} song={song} onSwitch={switchHandler} isAdded={false} />
+              <Song
+                key={song.title}
+                song={song}
+                onSwitch={switchHandler}
+                isAdded={false}
+              />
             ))}
           </ul>
           <ul className="playlist">
             <PlaylistName />
             {addedSongs.map((song) => (
-              <Song key={song.title} song={song} onSwitch={switchHandler} isAdded={true} />
+              <Song
+                key={song.title}
+                song={song}
+                onSwitch={switchHandler}
+                isAdded={true}
+              />
             ))}
             <SaveButton />
           </ul>
         </section>
-
-        
       </main>
 
       {/*footer*/}
