@@ -11,6 +11,10 @@ import SaveButton from "./components/savebutton/SaveButton";
 import ApiHandler from "./components/apihandler/ApiHandler";
 
 function App() {
+  // test for .env flow to work
+  // console.log(process.env.REACT_APP_CLIENT_ID);
+  // console.log(process.env.REACT_APP_CLIENT_SECRET);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [songs, setSongs] = useState([
     {
