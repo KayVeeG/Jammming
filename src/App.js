@@ -66,23 +66,42 @@ function App() {
     const limit = 10;
 
     const searchEndpoint =
-      "https://api.spotify.com/v1/search?q=" + searchTerm + "&type=" + resultType + "&limit=" + limit.toString();
+      "https://api.spotify.com/v1/search?q=" +
+      searchTerm +
+      "&type=" +
+      resultType +
+      "&limit=" +
+      limit.toString();
 
     const authParameters = {
       method: "GET",
       headers: {
-        "Authorization": 'Bearer ' + accessToken
-      }
-    }
+        Authorization: "Bearer " + accessToken,
+      },
+    };
 
-    const response = await fetch(
-      searchEndpoint, authParameters
-    );
+    const response = await fetch(searchEndpoint, authParameters);
 
     const data = await response.json(); // Convert response to JSON
-    console.log(data); // Print the result
+    console.log(data.tracks.items); // Print the response from spotify
 
-    
+    /*
+      {
+      title: "Wurst Vacation",
+      artist: "Ice Nine Kills",
+      album: "Horrorwood",
+    },
+    */
+
+    const tracks = data.tracks.items.map((track) => ({
+      // convert response into usable array of objects in jammmings format
+      uri: track.uri,
+      title: track.name,
+      artist: track.artists[0].name,
+      album: track.album.name,
+    }));
+
+    console.log(tracks);
   }
 
   const searchUpdateHandler = (newSearchChange) => {
@@ -127,7 +146,7 @@ function App() {
 
       <main>
         {/* searchbar */}
-        <SearchBar onUpdate={searchUpdateHandler} onSearch={search}/>
+        <SearchBar onUpdate={searchUpdateHandler} onSearch={search} />
 
         {/* songlists */}
         <section className="container">
