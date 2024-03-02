@@ -58,8 +58,31 @@ function App() {
       .then((data) => setAccessToken(data.access_token));
   }, []);
 
-  async function search(newSearchTerm) {
-    console.log("search for " + searchTerm);
+  // search function
+  async function search() {
+    console.log("search for " + searchTerm); // Taylor Swift
+
+    const resultType = "track";
+    const limit = 10;
+
+    const searchEndpoint =
+      "https://api.spotify.com/v1/search?q=" + searchTerm + "&type=" + resultType + "&limit=" + limit.toString();
+
+    const authParameters = {
+      method: "GET",
+      headers: {
+        "Authorization": 'Bearer ' + accessToken
+      }
+    }
+
+    const response = await fetch(
+      searchEndpoint, authParameters
+    );
+
+    const data = await response.json(); // Convert response to JSON
+    console.log(data); // Print the result
+
+    
   }
 
   const searchUpdateHandler = (newSearchChange) => {
