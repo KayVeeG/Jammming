@@ -16,23 +16,7 @@ const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
 function App() {
   // general state hooks
   const [searchTerm, setSearchTerm] = useState("");
-  const [songs, setSongs] = useState([
-    {
-      title: "Wurst Vacation",
-      artist: "Ice Nine Kills",
-      album: "Horrorwood",
-    },
-    {
-      title: "Fly me to the moon",
-      artist: "Frank Sinatra",
-      album: "Pretty Eyes",
-    },
-    {
-      title: "Can you remember the rain",
-      artist: "unknown",
-      album: "unkown",
-    },
-  ]);
+  const [songs, setSongs] = useState([]);
 
   const [addedSongs, setAddedSongs] = useState([]);
   const [accessToken, setAccessToken] = useState("");
@@ -60,32 +44,33 @@ function App() {
 
   // search function
   async function search() {
-    console.log("search for " + searchTerm); // Taylor Swift
+    if (searchTerm) {
+      console.log("search for " + searchTerm); // Taylor Swift
 
-    const resultType = "track";
-    const limit = 10;
+      const resultType = "track";
+      const limit = 7;
 
-    const searchEndpoint =
-      "https://api.spotify.com/v1/search?q=" +
-      searchTerm +
-      "&type=" +
-      resultType +
-      "&limit=" +
-      limit.toString();
+      const searchEndpoint =
+        "https://api.spotify.com/v1/search?q=" +
+        searchTerm +
+        "&type=" +
+        resultType +
+        "&limit=" +
+        limit.toString();
 
-    const authParameters = {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + accessToken,
-      },
-    };
+      const authParameters = {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+      };
 
-    const response = await fetch(searchEndpoint, authParameters);
+      const response = await fetch(searchEndpoint, authParameters);
 
-    const data = await response.json(); // Convert response to JSON
-    console.log(data.tracks.items); // Print the response from spotify
+      const data = await response.json(); // Convert response to JSON
+      console.log(data.tracks.items); // Print the response from spotify
 
-    /*
+      /*
       {
       title: "Wurst Vacation",
       artist: "Ice Nine Kills",
@@ -93,31 +78,41 @@ function App() {
     },
     */
 
-    const tracks = data.tracks.items.map((track) => ({
-      // convert response into usable array of objects in jammmings format
-      uri: track.uri,
-      title: track.name,
-      artist: track.artists[0].name,
-      album: track.album.name,
-    }));
+      const tracks = data.tracks.items.map((track, index) => ({
+        // convert response into usable array of objects in jammmings format
+        key: index,
+        uri: track.uri,
+        title: track.name,
+        artist: track.artists[0].name, // because artists is array
+        album: track.album.name,
+      }));
 
-    console.log(tracks);
+      console.log(tracks);
 
-    setSongs((prev) => {
-      return [...prev, ...tracks]
-    })
-    
+      // put new tracks into displayed resultlist
+      setSongs((prev) => {
+        return [...prev, ...tracks];
+      });
+    }
+  }
+
+  async function addPlaylistHandler() {
+    console.log("adding a playlist...");
+
+    if (addedSongs.length !== 0) {
+      console.log("not empty!");
+    }
   }
 
   const searchUpdateHandler = (newSearchChange) => {
-    setSearchTerm(newSearchChange);
+    setSearchTerm(newSearchChange); // constantly update app.js state variable through onChange handler from searchBar component
   };
 
   const switchHandler = (songToSwitch) => {
     console.log("switching song...");
 
-    // is true if songToSwitch title matches a song title in resultList
-    const isInResults = songs.some((song) => song.title === songToSwitch.title);
+    // is true if songToSwitch uri matches a song uri in resultList
+    const isInResults = songs.some((song) => song.key === songToSwitch.key);
 
     // detect in what list the song was triggered
     if (isInResults) {
@@ -159,7 +154,7 @@ function App() {
             <h2>Results</h2>
             {songs.map((song) => (
               <Song
-                key={song.title}
+                key={song.key}
                 song={song}
                 onSwitch={switchHandler}
                 isAdded={false}
@@ -170,13 +165,13 @@ function App() {
             <PlaylistName />
             {addedSongs.map((song) => (
               <Song
-                key={song.title}
+                key={song.key}
                 song={song}
                 onSwitch={switchHandler}
                 isAdded={true}
               />
             ))}
-            <SaveButton />
+            <SaveButton OnClick={addPlaylistHandler} />
           </ul>
         </section>
       </main>

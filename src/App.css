@@ -92,7 +92,7 @@ main .songResults h2 {
 
 .songResults {
   width: 50%; /* other should have 40 */
-  min-height: 33.35rem; /* have list be extended even without songs*/
+  min-height: 90rem; /* have list be extended even without songs*/
   border: 0.3rem solid #212121;
   background-color: #2d005d8c;
   border-radius: 1rem;
@@ -127,7 +127,7 @@ main .songResults h2 {
 
 footer {
   width: 100%;
-  margin-top: 5rem;
+  margin-top: 20rem;
   display: flex;
   justify-content: center;
   padding: 1rem 0;
