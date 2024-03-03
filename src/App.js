@@ -102,6 +102,11 @@ function App() {
     }));
 
     console.log(tracks);
+
+    setSongs((prev) => {
+      return [...prev, ...tracks]
+    })
+    
   }
 
   const searchUpdateHandler = (newSearchChange) => {
