@@ -50,7 +50,7 @@ function App() {
       const resultType = "track";
       const limit = 7;
 
-      const searchEndpoint =
+      var searchEndpoint =
         "https://api.spotify.com/v1/search?q=" +
         searchTerm +
         "&type=" +
@@ -58,7 +58,7 @@ function App() {
         "&limit=" +
         limit.toString();
 
-      const authParameters = {
+      var authParameters = {
         method: "GET",
         headers: {
           Authorization: "Bearer " + accessToken,
@@ -100,7 +100,27 @@ function App() {
     console.log("adding a playlist...");
 
     if (addedSongs.length !== 0) {
-      console.log("not empty!");
+      // only execute if there is something to be added
+
+      // get user id
+
+      var authParameters = {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+      };
+
+      if (accessToken != null) {
+        const response = await fetch(
+          "https://api.spotify.com/v1/me",
+          authParameters
+        );
+
+        const data = await response.json(); // convert to json
+        console.log(accessToken);
+        console.log(data);
+      }
     }
   }
 
@@ -111,7 +131,7 @@ function App() {
   const switchHandler = (songToSwitch) => {
     console.log("switching song...");
 
-    // is true if songToSwitch uri matches a song uri in resultList
+    // is true if songToSwitch key matches a song key in resultList
     const isInResults = songs.some((song) => song.key === songToSwitch.key);
 
     // detect in what list the song was triggered
