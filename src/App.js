@@ -21,26 +21,81 @@ function App() {
   const [addedSongs, setAddedSongs] = useState([]);
   const [accessToken, setAccessToken] = useState("");
 
-  // fetch api
+  // fetch api token via implicit grant
+  useEffect(() => {
+    // Function to parse the access token from the URL hash
+    function extractTokenFromUrl() {
+      // Get the part of the URL after the hash symbol
+      const hashParams = window.location.hash.substring(1).split("&");
+      // Reduce the array of hash parameters to an object with key-value pairs
+      const tokenDetails = hashParams.reduce((acc, item) => {
+        // Split each parameter at the '=' to separate keys and values
+        const [key, value] = item.split("=");
+        // Decode and assign the value to its corresponding key in the accumulator object
+        if (key) acc[key] = decodeURIComponent(value);
+        return acc;
+      }, {});
+      // Return an object containing the access token
+      return {
+        accessToken: tokenDetails.access_token,
+      };
+    }
+
+    // Function to store the access token along with the current timestamp in local storage
+    function storeTokenInLocalStorage(token) {
+      // Create an object with the token and the current timestamp
+      const tokenData = {
+        value: token, // The actual token value
+        timestamp: Date.now(), // The current time in milliseconds since the epoch
+      };
+      // Convert the object to a string and store it in local storage under 'spotify_access_token'
+      localStorage.setItem("spotify_access_token", JSON.stringify(tokenData));
+    }
+
+    // Function to retrieve and validate the access token from local storage
+    function getTokenFromLocalStorage() {
+      // Retrieve the token data string from local storage
+      const tokenString = localStorage.getItem("spotify_access_token");
+      // If there's nothing stored, return null
+      if (!tokenString) return null;
+
+      // Parse the token data string back into an object
+      const tokenData = JSON.parse(tokenString);
+      // Calculate if the token is expired by comparing the stored timestamp with the current time
+      const isExpired = Date.now() - tokenData.timestamp > 3600 * 1000; // 3600 seconds * 1000 milliseconds
+      // Return null if the token is expired, otherwise return the token value
+      return isExpired ? null : tokenData.value;
+    }
+
+    // Extract the access token from the URL using the defined function
+    const { accessToken } = extractTokenFromUrl();
+    // Attempt to retrieve a valid token from local storage
+    const storedToken = getTokenFromLocalStorage();
+
+    // If an access token was found in the URL...
+    if (accessToken) {
+      console.log("Token Found in URL:", accessToken); // Log the found token
+      setAccessToken(accessToken); // Update the React state with the new token
+      storeTokenInLocalStorage(accessToken); // Store the new token in local storage
+      window.location.hash = ""; // Clear the URL hash to remove the access token
+    } else if (!storedToken) {
+      // If no valid token is stored (i.e., it's either missing or expired)...
+      // Construct the Spotify authorization URL with the necessary parameters
+      const authUrl = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(
+        "http://localhost:3000"
+      )}&scope=${encodeURIComponent(
+        "user-read-private playlist-modify-public"
+      )}&response_type=token&show_dialog=true`;
+      window.location.href = authUrl; // Redirect the browser to the Spotify authorization page
+    } else {
+      // If a valid token was retrieved from local storage...
+      setAccessToken(storedToken); // Update the React state with the stored token
+    }
+  }, []); // The empty dependency array ensures this effect runs only once when the component mounts
 
   useEffect(() => {
-    // API Access Token
-    var authParameters = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body:
-        "grant_type=client_credentials&client_id=" +
-        CLIENT_ID +
-        "&client_secret=" +
-        CLIENT_SECRET,
-    };
-
-    fetch("https://accounts.spotify.com/api/token", authParameters) // fetch access token
-      .then((result) => result.json()) // convert to json
-      .then((data) => setAccessToken(data.access_token));
-  }, []);
+    console.log("Access Token Updated:", accessToken);
+  }, [accessToken]);
 
   // search function
   async function search() {
@@ -97,46 +152,15 @@ function App() {
   }
 
   async function addPlaylistHandler() {
-    console.log("adding a playlist...");
-
     // only execute if there is something to be added
     if (addedSongs.length !== 0) {
-      const authEndpoint = "https://accounts.spotify.com/authorize";
-      const clientId = CLIENT_ID;
-      const redirectUri = "http://localhost:3000";
-      const scopes = ["user-read-private", "playlist-modify-public"];
-
-      const authUrl = `${authEndpoint}?client_id=${clientId}&redirect_uri=${encodeURIComponent(
-        redirectUri
-      )}&scope=${encodeURIComponent(
-        scopes.join(" ")
-      )}&response_type=token&show_dialog=true`;
-
-      window.location.href = authUrl; // redirect user
-
-      window.onload = () => {
-        const hash = window.location.hash
-          .substring(1)
-          .split("&")
-          .reduce((initial, item) => {
-            if (item) {
-              let parts = item.split("=");
-              initial[parts[0]] = decodeURIComponent(parts[1]);
-            }
-            return initial;
-          }, {});
-
-        window.location.hash = ""; // Clear the hash fragment
-
-        // Now you have the access token in hash.access_token
-        setAccessToken(hash.access_token);
-      };
+      console.log("adding a playlist...");
 
       // get user id
       var authParameters = {
         method: "GET",
         headers: {
-          Authorization: "Bearer " + accessToken,
+          Authorization: `Bearer ${accessToken}`,
         },
       };
 
