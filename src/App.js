@@ -99,11 +99,40 @@ function App() {
   async function addPlaylistHandler() {
     console.log("adding a playlist...");
 
+    // only execute if there is something to be added
     if (addedSongs.length !== 0) {
-      // only execute if there is something to be added
+      const authEndpoint = "https://accounts.spotify.com/authorize";
+      const clientId = CLIENT_ID;
+      const redirectUri = "http://localhost:3000";
+      const scopes = ["user-read-private", "playlist-modify-public"];
+
+      const authUrl = `${authEndpoint}?client_id=${clientId}&redirect_uri=${encodeURIComponent(
+        redirectUri
+      )}&scope=${encodeURIComponent(
+        scopes.join(" ")
+      )}&response_type=token&show_dialog=true`;
+
+      window.location.href = authUrl; // redirect user
+
+      window.onload = () => {
+        const hash = window.location.hash
+          .substring(1)
+          .split("&")
+          .reduce((initial, item) => {
+            if (item) {
+              let parts = item.split("=");
+              initial[parts[0]] = decodeURIComponent(parts[1]);
+            }
+            return initial;
+          }, {});
+
+        window.location.hash = ""; // Clear the hash fragment
+
+        // Now you have the access token in hash.access_token
+        setAccessToken(hash.access_token);
+      };
 
       // get user id
-
       var authParameters = {
         method: "GET",
         headers: {
