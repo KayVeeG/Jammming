@@ -171,8 +171,7 @@ function App() {
         );
 
         const data = await response.json(); // convert to json
-        console.log(accessToken);
-        console.log(data);
+        const USER_ID = data.id;
       }
     }
   }
