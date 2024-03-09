@@ -196,8 +196,6 @@ function App() {
           }),
         };
 
-        setNewPlaylistName(""); // clear playlist name after putting it into params
-
         const response = await fetch(
           `https://api.spotify.com/v1/users/${USER_ID}/playlists`,
           params
@@ -209,8 +207,30 @@ function App() {
 
       // add tracks
       if (newPlaylistId != null) {
+        var params = {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + accessToken,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            uris: addedSongs.map((song) => song.uri),
+            position: 0,
+          }),
+        };
       }
+
+      const response = await fetch(
+        `https://api.spotify.com/v1/playlists/${newPlaylistId}/tracks`,
+        params
+      );
+
+      const data = await response.json();
+      console.log(data);
     }
+
+    setNewPlaylistName(""); // clear playlist name after putting it into params
+    setAddedSongs([]);
   }
 
   const searchUpdateHandler = (newSearchChange) => {
