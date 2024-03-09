@@ -13,6 +13,9 @@ import ApiHandler from "./components/apihandler/ApiHandler";
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
 
+var USER_ID = null;
+var newPlaylistId = null;
+
 function App() {
   // general state hooks
   const [searchTerm, setSearchTerm] = useState("");
@@ -20,6 +23,8 @@ function App() {
 
   const [addedSongs, setAddedSongs] = useState([]);
   const [accessToken, setAccessToken] = useState("");
+
+  const [newPlaylistName, setNewPlaylistName] = useState("");
 
   // fetch api token via implicit grant
   useEffect(() => {
@@ -81,11 +86,13 @@ function App() {
     } else if (!storedToken) {
       // If no valid token is stored (i.e., it's either missing or expired)...
       // Construct the Spotify authorization URL with the necessary parameters
-      const authUrl = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(
-        "http://localhost:3000"
-      )}&scope=${encodeURIComponent(
-        "user-read-private playlist-modify-public"
-      )}&response_type=token&show_dialog=true`;
+      const authUrl =
+        `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(
+          "http://localhost:3000"
+        )}&scope=${encodeURIComponent(
+          "user-read-private playlist-modify-public"
+        )}&response_type=token&show_dialog=true&scope=` +
+        encodeURIComponent("playlist-modify-private playlist-read-private");
       window.location.href = authUrl; // Redirect the browser to the Spotify authorization page
     } else {
       // If a valid token was retrieved from local storage...
@@ -171,7 +178,37 @@ function App() {
         );
 
         const data = await response.json(); // convert to json
-        const USER_ID = data.id;
+        USER_ID = data.id;
+      }
+
+      // create playlist
+      if (USER_ID != null) {
+        var params = {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + accessToken,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: newPlaylistName,
+            description: "my awesome playlist!",
+            public: false,
+          }),
+        };
+
+        setNewPlaylistName(""); // clear playlist name after putting it into params
+
+        const response = await fetch(
+          `https://api.spotify.com/v1/users/${USER_ID}/playlists`,
+          params
+        );
+
+        const newPlaylistResponse = await response.json();
+        newPlaylistId = newPlaylistResponse.id;
+      }
+
+      // add tracks
+      if (newPlaylistId != null) {
       }
     }
   }
@@ -209,6 +246,10 @@ function App() {
     }
   };
 
+  function playlistNameHandler(newPlaylistName) {
+    setNewPlaylistName(newPlaylistName);
+  }
+
   return (
     <>
       {/* header */}
@@ -234,7 +275,10 @@ function App() {
             ))}
           </ul>
           <ul className="playlist">
-            <PlaylistName />
+            <PlaylistName
+              playlistNameHandler={playlistNameHandler}
+              newPlaylistName={newPlaylistName}
+            />
             {addedSongs.map((song) => (
               <Song
                 key={song.key}

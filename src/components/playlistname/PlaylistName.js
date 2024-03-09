@@ -1,22 +1,19 @@
 import React, { useState } from "react";
-import styles from './PlaylistName.module.css';
+import styles from "./PlaylistName.module.css";
 
-function PlaylistName() {
-  const [playlistName, setPlaylistName] = useState("");
+function PlaylistName({ playlistNameHandler, newPlaylistName }) {
 
   const handleChange = (e) => {
-    setPlaylistName(e.target.value);
-  }
+    playlistNameHandler(e.target.value);
+  };
 
-  const handleClick = () => {
-
-  }
+  const handleClick = () => {};
 
   return (
     <>
-      <input 
+      <input
         placeholder=""
-        value={playlistName}
+        value={newPlaylistName}
         onChange={handleChange}
         onClick={handleClick}
         className={styles.nameInput}
