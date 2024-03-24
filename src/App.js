@@ -8,7 +8,6 @@ import SearchBar from "./components/searchbar/SearchBar";
 import Song from "./components/song/Song";
 import PlaylistName from "./components/playlistname/PlaylistName";
 import SaveButton from "./components/savebutton/SaveButton";
-import ApiHandler from "./components/apihandler/ApiHandler";
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
@@ -252,7 +251,7 @@ function App() {
         //add song to playlist list
         return [...prevAddedSongs, songToSwitch]; //add prev array + new song
       });
-      setSongs(songs.filter((song) => song.title !== songToSwitch.title)); //remove song from result list
+      setSongs(songs.filter((song) => song.key !== songToSwitch.key)); //remove song from result list
     } else {
       //if song is in playlist list
 
@@ -261,7 +260,7 @@ function App() {
         return [...prevSongs, songToSwitch];
       });
       setAddedSongs(
-        addedSongs.filter((song) => song.title !== songToSwitch.title)
+        addedSongs.filter((song) => song.key !== songToSwitch.key)
       );
     }
   };
